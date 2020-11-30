@@ -1,0 +1,44 @@
+---
+title: "Projet_R"
+author: "EL_Hadrami"
+date: "10/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(corrplot)
+library(tidyverse)
+library(FactoMineR)
+```
+
+```{r}
+data_set <- read.csv(file="/home/ndoye/M1_SSD/Projet_R/data/african_crises(1).csv")
+summary(data_set)
+```
+
+```{r}
+df.countries <- data.frame(table(data_set$country))
+ggplot(data = df.countries) + 
+geom_bar(stat="identity",mapping = aes(y=Freq,fill=Var1))
+
+```
+
+
+```{r}
+df <- data.frame(data_set$year,data_set$exch_usd,data_set$gdp_weighted_default,data_set$inflation_annual_cpi)
+pairs(df)
+corr <- cor(df,method= "pearson")
+corrplot(corr, type="upper", order="hclust", tl.col="black", tl.srt=45)
+```
+
+
+```{r}
+plot(data_set$year,data_set$exch_usd)
+abline(lm(data_set$exch_usd~data_set$year))
+```
+
+
